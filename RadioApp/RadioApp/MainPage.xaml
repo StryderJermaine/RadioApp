@@ -1,41 +1,206 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RadioApp.MainPage">
+             x:Class="RadioApp.MainPage"
+             Shell.NavBarIsVisible="False">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <Grid RowDefinitions="*,*,*"
+          RowSpacing="20"
+          BackgroundColor="#f1f4f5">
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
+        <!-- Now playing section -->
+        <AbsoluteLayout Grid.Row="0">
 
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+            <Label Text="Turn on the Radio."
+                   AbsoluteLayout.LayoutFlags="All"
+                   AbsoluteLayout.LayoutBounds="0.5, 0.3, 1, 0.3"
+                   FontSize="20"
+                   IsVisible="{Binding IsTurnedOn}"/>
 
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+            <StackLayout AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.5, 0.4, 1, 0.4"
+                         HorizontalOptions="CenterAndExpand">
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
+                <Label Text="Now playing"
+                       FontSize="40"
+                       />
 
-        </VerticalStackLayout>
-    </ScrollView>
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="Center"
+                             Spacing="10">
+
+                    <Label Text="99.7"
+                           FontSize="40"
+                    />
+
+                    <Label Text="MHz"
+                           FontSize="40"
+                    />
+
+                </StackLayout>
+                   
+
+            </StackLayout>
+
+            <StackLayout AbsoluteLayout.LayoutFlags="All"
+                         AbsoluteLayout.LayoutBounds="0.95, 1, 0.2, 0.2"
+                         Orientation="Horizontal">
+
+                <Button BackgroundColor="Transparent"
+                        Text="Scan"
+                        FontAttributes="Bold"
+                        TextColor="Black"
+                        FontSize="18"/>
+
+                <ImageButton HeightRequest="18"
+                             WidthRequest="18"
+                             VerticalOptions="Center">
+
+                    <ImageButton.Source>
+
+                        <FontImageSource FontFamily="FaSolid"
+                                         Color="Black"
+                                         Glyph="&#xf142;"/>
+
+                    </ImageButton.Source>
+
+                </ImageButton>
+
+            </StackLayout>
+
+        </AbsoluteLayout>
+
+        <!-- Main radio section -->
+        <Grid RowDefinitions="*,*,*"
+              RowSpacing="20"
+              Grid.Row="1"
+              BackgroundColor="White"
+              Padding="20">
+
+            <StackLayout Orientation="Horizontal"
+                         Spacing="20"
+                         Grid.Row="0"
+                         VerticalOptions="Start">
+
+                <ImageButton HeightRequest="20"
+                             WidthRequest="20"
+                             CornerRadius="10"
+                             BorderColor="Black">
+
+                    <ImageButton.Source>
+
+                        <FontImageSource FontFamily="FaSolid"
+                                         Size="14"
+                                         Color="Black"
+                                         Glyph="&#xf011;"/>
+
+                    </ImageButton.Source>
+
+                </ImageButton>
+
+                <ImageButton HeightRequest="20"
+                             WidthRequest="20"
+                             CornerRadius="10">
+
+                    <ImageButton.Source>
+
+                        <FontImageSource FontFamily="FaSolid"
+                                         Size="14"
+                                         Color="Red"
+                                         Glyph="&#xf111;"/>
+
+                    </ImageButton.Source>
+
+                </ImageButton>
+
+            </StackLayout>
+
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*, 2*, *"
+                  ColumnSpacing="20"
+                  Padding="0">
+
+                <ImageButton Grid.Column="0"
+                             WidthRequest="35"
+                             HeightRequest="35"
+                             HorizontalOptions="Start">
+
+                    <ImageButton.Source>
+
+                        <FontImageSource FontFamily="FaSolid"
+                                         Color="LightGray"
+                                         Glyph="&#xf104;"/>
+
+                    </ImageButton.Source>
+
+                </ImageButton>
+
+                <Grid Grid.Column="1"
+                      ColumnDefinitions="2*, *"
+                      ColumnSpacing="10"
+                      HorizontalOptions="Center">
+
+                    <Label Grid.Column="0"
+                           FontSize="45"
+                           FontAttributes="Bold"
+                           Text="99.7"
+                           VerticalOptions="StartAndExpand"/>
+
+                    <StackLayout Grid.Column="1"
+                                 Spacing="5"
+                                 VerticalOptions="Center">
+
+                        <ImageButton BackgroundColor="Transparent"
+                                     HeightRequest="15"
+                                     WidthRequest="15">
+
+                            <ImageButton.Source>
+
+                                <FontImageSource FontFamily="FaRegular"
+                                                 Size="14"
+                                                 Color="Gray"
+                                                 Glyph="&#xf005;"/>
+
+                            </ImageButton.Source>
+
+                        </ImageButton>
+
+                        <Label Text="MHz"
+                               FontSize="18"/>
+
+                    </StackLayout>
+
+                </Grid>
+
+                <ImageButton Grid.Column="2"
+                             BackgroundColor="Transparent"
+                             WidthRequest="35"
+                             HeightRequest="35"
+                             HorizontalOptions="End">
+
+                    <ImageButton.Source>
+
+                        <FontImageSource FontFamily="FaSolid"
+                                         Color="LightGray"
+                                         Glyph="&#xf105;"/>
+
+                    </ImageButton.Source>
+
+                </ImageButton>
+
+            </Grid>
+
+            <Label Grid.Row="2"
+                   Text="Radio Dial Goes Here"
+                   HorizontalOptions="CenterAndExpand"
+                   FontSize="20"/>
+
+        </Grid>
+
+        <!-- Bottom tabs with Favourites and Stations sections -->
+        <Label Grid.Row="2"
+               Text="Bottom tabs goes here"/>
+
+    </Grid>
 
 </ContentPage>
