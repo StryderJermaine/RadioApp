@@ -2,7 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RadioApp.MainPage"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
+             xmlns:rating="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView">
 
     <Grid RowDefinitions="*,*,*"
           RowSpacing="20"
@@ -71,135 +74,271 @@
         </AbsoluteLayout>
 
         <!-- Main radio section -->
-        <Grid RowDefinitions="*,*,*"
-              RowSpacing="20"
-              Grid.Row="1"
-              BackgroundColor="White"
-              Padding="20">
+        <Frame Grid.Row="1"
+               Padding="0"
+               CornerRadius="10"
+               HasShadow="False">
 
-            <StackLayout Orientation="Horizontal"
+            <Grid RowDefinitions="*,*,*"
+                  RowSpacing="20"
+                  BackgroundColor="White"
+                  Padding="20">
+
+                <StackLayout Orientation="Horizontal"
                          Spacing="20"
                          Grid.Row="0"
                          VerticalOptions="Start">
 
-                <ImageButton HeightRequest="20"
+                    <ImageButton HeightRequest="20"
                              WidthRequest="20"
                              CornerRadius="10"
                              BorderColor="Black">
 
-                    <ImageButton.Source>
+                        <ImageButton.Source>
 
-                        <FontImageSource FontFamily="FaSolid"
+                            <FontImageSource FontFamily="FaSolid"
                                          Size="14"
                                          Color="Black"
                                          Glyph="&#xf011;"/>
 
-                    </ImageButton.Source>
+                        </ImageButton.Source>
 
-                </ImageButton>
+                    </ImageButton>
 
-                <ImageButton HeightRequest="20"
+                    <ImageButton HeightRequest="20"
                              WidthRequest="20"
                              CornerRadius="10">
 
-                    <ImageButton.Source>
+                        <ImageButton.Source>
 
-                        <FontImageSource FontFamily="FaSolid"
+                            <FontImageSource FontFamily="FaSolid"
                                          Size="14"
                                          Color="Red"
                                          Glyph="&#xf111;"/>
 
-                    </ImageButton.Source>
+                        </ImageButton.Source>
 
-                </ImageButton>
+                    </ImageButton>
 
-            </StackLayout>
+                </StackLayout>
 
-            <Grid Grid.Row="1"
+                <Grid Grid.Row="1"
                   ColumnDefinitions="*, 2*, *"
                   ColumnSpacing="20"
                   Padding="0">
 
-                <ImageButton Grid.Column="0"
+                    <ImageButton Grid.Column="0"
                              WidthRequest="35"
                              HeightRequest="35"
                              HorizontalOptions="Start">
 
-                    <ImageButton.Source>
+                        <ImageButton.Source>
 
-                        <FontImageSource FontFamily="FaSolid"
+                            <FontImageSource FontFamily="FaSolid"
                                          Color="LightGray"
                                          Glyph="&#xf104;"/>
 
-                    </ImageButton.Source>
+                        </ImageButton.Source>
 
-                </ImageButton>
+                    </ImageButton>
 
-                <Grid Grid.Column="1"
+                    <Grid Grid.Column="1"
                       ColumnDefinitions="2*, *"
                       ColumnSpacing="10"
                       HorizontalOptions="Center">
 
-                    <Label Grid.Column="0"
+                        <Label Grid.Column="0"
                            FontSize="45"
                            FontAttributes="Bold"
                            Text="99.7"
                            VerticalOptions="StartAndExpand"/>
 
-                    <StackLayout Grid.Column="1"
+                        <StackLayout Grid.Column="1"
                                  Spacing="5"
                                  VerticalOptions="Center">
 
-                        <ImageButton BackgroundColor="Transparent"
+                            <ImageButton BackgroundColor="Transparent"
                                      HeightRequest="15"
                                      WidthRequest="15">
 
-                            <ImageButton.Source>
+                                <ImageButton.Source>
 
-                                <FontImageSource FontFamily="FaRegular"
+                                    <FontImageSource FontFamily="FaRegular"
                                                  Size="14"
                                                  Color="Gray"
                                                  Glyph="&#xf005;"/>
 
-                            </ImageButton.Source>
+                                </ImageButton.Source>
 
-                        </ImageButton>
+                            </ImageButton>
 
-                        <Label Text="MHz"
+                            <Label Text="MHz"
                                FontSize="18"/>
 
-                    </StackLayout>
+                        </StackLayout>
 
-                </Grid>
+                    </Grid>
 
-                <ImageButton Grid.Column="2"
+                    <ImageButton Grid.Column="2"
                              BackgroundColor="Transparent"
                              WidthRequest="35"
                              HeightRequest="35"
                              HorizontalOptions="End">
 
-                    <ImageButton.Source>
+                        <ImageButton.Source>
 
-                        <FontImageSource FontFamily="FaSolid"
+                            <FontImageSource FontFamily="FaSolid"
                                          Color="LightGray"
                                          Glyph="&#xf105;"/>
 
-                    </ImageButton.Source>
+                        </ImageButton.Source>
 
-                </ImageButton>
+                    </ImageButton>
 
-            </Grid>
+                </Grid>
 
-            <Label Grid.Row="2"
+                <Label Grid.Row="2"
                    Text="Radio Dial Goes Here"
                    HorizontalOptions="CenterAndExpand"
                    FontSize="20"/>
 
-        </Grid>
+            </Grid>
 
-        <!-- Bottom tabs with Favourites and Stations sections -->
-        <Label Grid.Row="2"
-               Text="Bottom tabs goes here"/>
+        </Frame>
+
+        <!-- Bottom tabs -->
+        <tabView:SfTabView Grid.Row="2"
+                           IndicatorBackground="Black"
+                           TabBarPlacement="Bottom"
+                           >
+
+            <tabView:SfTabView.Items>
+
+                <!-- Favourites tab -->
+                <tabView:SfTabItem Header="Favorites">
+
+                    <tabView:SfTabItem.Content>
+
+                        <syncfusion:SfListView SelectionBackground="Transparent">
+
+                            <!-- Displayed view when there are no saved stations -->
+                            <syncfusion:SfListView.EmptyView>
+
+                                <Grid>
+
+                                    <StackLayout HorizontalOptions="Center"
+                                                 VerticalOptions="Center"
+                                                 Spacing="10">
+
+                                        <Label Text="No favourite stations"
+                                               FontSize="20"
+                                               HorizontalOptions="Center"/>
+
+                                        <Label Text="After you tap the start icon next to the station names, they will appear here."
+                                               FontSize="14"
+                                               TextColor="Gray"
+                                               HorizontalOptions="Center"
+                                               HorizontalTextAlignment="Center"/>
+
+                                    </StackLayout>
+
+                                </Grid>
+
+                            </syncfusion:SfListView.EmptyView>
+
+                        </syncfusion:SfListView>
+
+                    </tabView:SfTabItem.Content>
+
+                </tabView:SfTabItem>
+
+                <!-- Stations tab -->
+                <tabView:SfTabItem Header="Stations">
+
+                    <tabView:SfTabItem.Content>
+
+                        <syncfusion:SfListView ItemsSource="{Binding Stations}"
+                                               ItemSpacing="10"
+                                               SelectionMode="Single"
+                                               SelectionBackground="Transparent">
+
+                            <!-- Item template -->
+                            <syncfusion:SfListView.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <ViewCell>
+
+                                        <StackLayout Orientation="Horizontal">
+
+                                            <StackLayout HorizontalOptions="Start"
+                                                         Orientation="Horizontal"
+                                                         Spacing="5">
+
+                                                <Label Text="{Binding Frequency}"
+                                                       FontSize="18"/>
+
+                                                <Label Text="MHz"
+                                                       FontSize="18"/>
+
+                                            </StackLayout>
+
+                                            <rating:SfRating ItemCount="1">
+
+                                                <rating:SfRating.RatingSettings>
+
+                                                    <rating:RatingSettings RatedFill="Orange" 
+                                                                           UnratedFill="Transparent" 
+                                                                           UnratedStroke="LightGray" 
+                                                                           RatedStrokeThickness="0" 
+                                                                           UnratedStrokeThickness="2"/>
+
+                                                </rating:SfRating.RatingSettings>
+
+                                            </rating:SfRating>
+
+                                        </StackLayout>
+
+                                    </ViewCell>
+
+                                </DataTemplate>
+
+                            </syncfusion:SfListView.ItemTemplate>
+
+                            <!-- Displayed view when there are no saved stations -->
+                            <syncfusion:SfListView.EmptyView>
+
+                                <Grid>
+
+                                    <StackLayout HorizontalOptions="Center"
+                                                 VerticalOptions="Center"
+                                                 Spacing="10">
+
+                                        <Label Text="No Stations"
+                                               FontSize="20"
+                                               HorizontalOptions="Center"/>
+
+                                        <Label Text="After you scan for stations, they will appear here."
+                                               FontSize="14"
+                                               TextColor="Gray"
+                                               HorizontalOptions="Center"
+                                               HorizontalTextAlignment="Center"/>
+
+                                    </StackLayout>
+
+                                </Grid>
+
+                            </syncfusion:SfListView.EmptyView>
+
+                        </syncfusion:SfListView>
+
+                    </tabView:SfTabItem.Content>
+
+                </tabView:SfTabItem>
+
+            </tabView:SfTabView.Items>
+
+        </tabView:SfTabView>
 
     </Grid>
 
