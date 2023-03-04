@@ -4,8 +4,14 @@
              x:Class="RadioApp.MainPage"
              Shell.NavBarIsVisible="False"
              xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
-             xmlns:rating="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
-             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView">
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:local="clr-namespace:RadioApp">
+
+    <ContentPage.Resources>
+
+        <local:VisibilityConverter x:Key="VisibilityConverter" />
+
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="*,*,*"
           RowSpacing="20"
@@ -32,7 +38,7 @@
                              HorizontalOptions="Center"
                              Spacing="10">
 
-                    <Label Text="99.7"
+                    <Label Text="{Binding ActiveStation.Frequency}"
                            FontSize="40"
                     />
 
@@ -150,7 +156,7 @@
                         <Label Grid.Column="0"
                            FontSize="45"
                            FontAttributes="Bold"
-                           Text="99.7"
+                           Text="{Binding ActiveStation.Frequency}"
                            VerticalOptions="StartAndExpand"/>
 
                         <StackLayout Grid.Column="1"
@@ -159,7 +165,8 @@
 
                             <ImageButton BackgroundColor="Transparent"
                                      HeightRequest="15"
-                                     WidthRequest="15">
+                                     WidthRequest="15"
+                                     IsVisible="{Binding ActiveStation.IsFavourite, Converter={StaticResource VisibilityConverter}}">
 
                                 <ImageButton.Source>
 
@@ -167,6 +174,22 @@
                                                  Size="14"
                                                  Color="Gray"
                                                  Glyph="&#xf005;"/>
+
+                                </ImageButton.Source>
+
+                            </ImageButton>
+
+                            <ImageButton BackgroundColor="Transparent"
+                                         HeightRequest="15"
+                                         WidthRequest="15"
+                                         IsVisible="{Binding Path=ActiveStation.IsFavourite}">
+
+                                <ImageButton.Source>
+
+                                    <FontImageSource FontFamily="FaSolid"
+                                                     Size="14"
+                                                     Color="Orange"
+                                                     Glyph="&#xf005;"/>
 
                                 </ImageButton.Source>
 
@@ -257,80 +280,125 @@
 
                     <tabView:SfTabItem.Content>
 
-                        <syncfusion:SfListView ItemsSource="{Binding Stations}"
-                                               ItemSpacing="10"
+                        <Frame HasShadow="False"
+                               
+                               BackgroundColor="White"
+                               CornerRadius="10"
+                               Padding="10">
+
+                            <syncfusion:SfListView ItemsSource="{Binding Stations}"
+                                               ItemSpacing="10,10,10,10"
                                                SelectionMode="Single"
-                                               SelectionBackground="Transparent">
+                                               SelectionBackground="Transparent"
+                                               ClipToBounds="True"
+                                               SelectedItem="{Binding ActiveStation}">
 
-                            <!-- Item template -->
-                            <syncfusion:SfListView.ItemTemplate>
+                                <!-- Item template -->
+                                <syncfusion:SfListView.ItemTemplate>
 
-                                <DataTemplate>
+                                    <DataTemplate>
 
-                                    <ViewCell>
+                                        <ViewCell>
 
-                                        <StackLayout Orientation="Horizontal">
+                                            <Grid RowDefinitions="*, Auto"
+                                                  RowSpacing="10">
 
-                                            <StackLayout HorizontalOptions="Start"
-                                                         Orientation="Horizontal"
-                                                         Spacing="5">
+                                                <StackLayout Orientation="Horizontal"
+                                                             Grid.Row="0">
 
-                                                <Label Text="{Binding Frequency}"
-                                                       FontSize="18"/>
+                                                    <StackLayout HorizontalOptions="Start"
+                                                                 VerticalOptions="Center"
+                                                                 Orientation="Horizontal"
+                                                                 Spacing="5">
 
-                                                <Label Text="MHz"
-                                                       FontSize="18"/>
+                                                        <Label Text="{Binding Frequency}"
+                                                               FontSize="18"/>
 
-                                            </StackLayout>
+                                                        <Label Text="MHz"
+                                                               FontSize="18"/>
 
-                                            <rating:SfRating ItemCount="1">
+                                                    </StackLayout>
 
-                                                <rating:SfRating.RatingSettings>
+                                                    <ImageButton BackgroundColor="Transparent"
+                                                                 HeightRequest="20"
+                                                                 WidthRequest="20"
+                                                                 HorizontalOptions="EndAndExpand"
+                                                                 VerticalOptions="Center"
+                                                                 IsVisible="{Binding Path=IsFavourite, Converter={StaticResource VisibilityConverter}}">
 
-                                                    <rating:RatingSettings RatedFill="Orange" 
-                                                                           UnratedFill="Transparent" 
-                                                                           UnratedStroke="LightGray" 
-                                                                           RatedStrokeThickness="0" 
-                                                                           UnratedStrokeThickness="2"/>
+                                                        <ImageButton.Source>
 
-                                                </rating:SfRating.RatingSettings>
+                                                            <FontImageSource FontFamily="FaRegular"
+                                                                             Size="14"
+                                                                             Color="Gray"
+                                                                             Glyph="&#xf005;"/>
 
-                                            </rating:SfRating>
+                                                        </ImageButton.Source>
 
-                                        </StackLayout>
+                                                    </ImageButton>
 
-                                    </ViewCell>
+                                                    <ImageButton BackgroundColor="Transparent"
+                                                                 HeightRequest="20"
+                                                                 WidthRequest="20"
+                                                                 HorizontalOptions="EndAndExpand"
+                                                                 VerticalOptions="Center"
+                                                                 IsVisible="{Binding IsFavourite}">
 
-                                </DataTemplate>
+                                                        <ImageButton.Source>
 
-                            </syncfusion:SfListView.ItemTemplate>
+                                                            <FontImageSource FontFamily="FaSolid"
+                                                                             Size="14"
+                                                                             Color="Orange"
+                                                                             Glyph="&#xf005;"/>
 
-                            <!-- Displayed view when there are no saved stations -->
-                            <syncfusion:SfListView.EmptyView>
+                                                        </ImageButton.Source>
 
-                                <Grid>
+                                                    </ImageButton>
 
-                                    <StackLayout HorizontalOptions="Center"
+                                                </StackLayout>
+
+                                                <Rectangle Grid.Row="1"
+                                                           HeightRequest="1"
+                                                           Margin="0,0,0,0"
+                                                           Fill="Gray"
+                                                           HorizontalOptions="Fill"/>
+
+                                            </Grid>
+
+                                        </ViewCell>
+
+                                    </DataTemplate>
+
+                                </syncfusion:SfListView.ItemTemplate>
+
+                                <!-- Displayed view when there are no saved stations -->
+                                <syncfusion:SfListView.EmptyView>
+
+                                    <Grid>
+
+                                        <StackLayout HorizontalOptions="Center"
                                                  VerticalOptions="Center"
                                                  Spacing="10">
 
-                                        <Label Text="No Stations"
+                                            <Label Text="No Stations"
                                                FontSize="20"
                                                HorizontalOptions="Center"/>
 
-                                        <Label Text="After you scan for stations, they will appear here."
+                                            <Label Text="After you scan for stations, they will appear here."
                                                FontSize="14"
                                                TextColor="Gray"
                                                HorizontalOptions="Center"
                                                HorizontalTextAlignment="Center"/>
 
-                                    </StackLayout>
+                                        </StackLayout>
 
-                                </Grid>
+                                    </Grid>
 
-                            </syncfusion:SfListView.EmptyView>
+                                </syncfusion:SfListView.EmptyView>
 
-                        </syncfusion:SfListView>
+                            </syncfusion:SfListView>
+
+                        </Frame>
 
                     </tabView:SfTabItem.Content>
 

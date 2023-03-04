@@ -67,7 +67,49 @@ public class RadioViewModel : INotifyPropertyChanged
 
     public RadioViewModel()
     {
+        Stations = GetSampleStations();
+    }
 
+    private ObservableCollection<Station> GetSampleStations()
+    {
+        return new ObservableCollection<Station>
+        {
+            new()
+            {
+                Frequency = 88.9,
+                IsFavourite = false
+            },
+            new()
+            {
+                Frequency = 90.5,
+                IsFavourite = false
+            },
+            new()
+            {
+                Frequency = 91.3,
+                IsFavourite = false
+            },
+            new()
+            {
+                Frequency = 97.3,
+                IsFavourite = false
+            },
+            new()
+            {
+                Frequency = 99.7,
+                IsFavourite = false
+            },
+            new()
+            {
+                Frequency = 100.5,
+                IsFavourite = false
+            },
+            new()
+            {
+                Frequency = 104.3,
+                IsFavourite = false
+            },
+        };
     }
 
     #endregion
