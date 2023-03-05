@@ -5,6 +5,7 @@
              Shell.NavBarIsVisible="False"
              xmlns:tabView="clr-namespace:Syncfusion.Maui.TabView;assembly=Syncfusion.Maui.TabView"
              xmlns:syncfusion="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
+             xmlns:gauge="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
              xmlns:local="clr-namespace:RadioApp">
 
     <ContentPage.Resources>
@@ -220,10 +221,18 @@
 
                 </Grid>
 
-                <Label Grid.Row="2"
-                   Text="Radio Dial Goes Here"
-                   HorizontalOptions="CenterAndExpand"
-                   FontSize="20"/>
+                <Slider Minimum="86"
+                        Maximum="110"
+                        Grid.Row="2"
+                        >
+
+                    <Slider.ThumbImageSource>
+
+                        <FontImageSource FontFamily="" />
+
+                    </Slider.ThumbImageSource>
+
+                </Slider>
 
             </Grid>
 
@@ -242,7 +251,14 @@
 
                     <tabView:SfTabItem.Content>
 
-                        <syncfusion:SfListView SelectionBackground="Transparent">
+                        <syncfusion:SfListView SelectionBackground="Transparent"
+                                               ItemsSource="{Binding FavouriteStations}"
+                                               ItemSpacing="0"
+                                               ItemSize="100"
+                                               Orientation="Vertical"
+                                               SelectedItem="{Binding ActiveStation}"
+                                               SelectionChangedCommand="{Binding SetActiveColor}"
+                                               >
 
                             <!-- Displayed view when there are no saved stations -->
                             <syncfusion:SfListView.EmptyView>
@@ -257,17 +273,52 @@
                                                FontSize="20"
                                                HorizontalOptions="Center"/>
 
-                                        <Label Text="After you tap the start icon next to the station names, they will appear here."
+                                        <Label Text="After you tap the star icon next to the station names, they will appear here."
                                                FontSize="14"
                                                TextColor="Gray"
                                                HorizontalOptions="Center"
-                                               HorizontalTextAlignment="Center"/>
+                                               HorizontalTextAlignment="Center"
+                                               Margin="30,0,30,0"/>
 
                                     </StackLayout>
 
                                 </Grid>
 
                             </syncfusion:SfListView.EmptyView>
+
+                            <syncfusion:SfListView.ItemTemplate>
+
+                                <DataTemplate>
+
+                                    <ViewCell>
+
+                                        <Frame 
+                                                CornerRadius="50"
+                                                BorderColor="{Binding BorderColor}"
+                                                HasShadow="False"
+                                                Padding="0"
+                                                BackgroundColor="Transparent"
+                                                Margin="10"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center">
+ 
+                                            <Label Text="{Binding Frequency}"
+                                                   FontSize="14"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Frame>
+
+                                    </ViewCell>
+
+                                </DataTemplate>
+
+                            </syncfusion:SfListView.ItemTemplate>
+
+                            <syncfusion:SfListView.ItemsLayout>
+
+                                <syncfusion:GridLayout SpanCount="4" />
+
+                            </syncfusion:SfListView.ItemsLayout>
 
                         </syncfusion:SfListView>
 
@@ -290,8 +341,8 @@
                                                ItemSpacing="10,10,10,10"
                                                SelectionMode="Single"
                                                SelectionBackground="Transparent"
-                                               ClipToBounds="True"
-                                               SelectedItem="{Binding ActiveStation}">
+                                               SelectedItem="{Binding ActiveStation}"
+                                               x:Name="Stations">
 
                                 <!-- Item template -->
                                 <syncfusion:SfListView.ItemTemplate>
@@ -320,11 +371,13 @@
                                                     </StackLayout>
 
                                                     <ImageButton BackgroundColor="Transparent"
-                                                                 HeightRequest="20"
-                                                                 WidthRequest="20"
+                                                                 HeightRequest="25"
+                                                                 WidthRequest="25"
+                                                                 VerticalOptions="CenterAndExpand"
                                                                  HorizontalOptions="EndAndExpand"
-                                                                 VerticalOptions="Center"
-                                                                 IsVisible="{Binding Path=IsFavourite, Converter={StaticResource VisibilityConverter}}">
+                                                                 Command="{Binding ToggleFavourite}"
+                                                                 IsVisible="{Binding Path=IsFavourite, Converter={StaticResource VisibilityConverter}}"
+                                                                 >
 
                                                         <ImageButton.Source>
 
@@ -338,11 +391,13 @@
                                                     </ImageButton>
 
                                                     <ImageButton BackgroundColor="Transparent"
-                                                                 HeightRequest="20"
-                                                                 WidthRequest="20"
+                                                                 HeightRequest="25"
+                                                                 WidthRequest="25"
                                                                  HorizontalOptions="EndAndExpand"
                                                                  VerticalOptions="Center"
-                                                                 IsVisible="{Binding IsFavourite}">
+                                                                 IsVisible="{Binding IsFavourite}"
+                                                                 Command="{Binding ToggleFavourite}"
+                                                                 >
 
                                                         <ImageButton.Source>
 
